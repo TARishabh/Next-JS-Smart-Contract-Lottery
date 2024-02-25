@@ -3,14 +3,14 @@ import { useMoralis } from 'react-moralis';
 
 
 export default function ManualHeader() {
-  const {enableWeb3,account,isWeb3Enabled,Moralis,deactivateWeb3} = useMoralis();
+  const {enableWeb3,account,isWeb3Enabled,Moralis,deactivateWeb3,isWeb3EnableLoading} = useMoralis();
   const handleConnectOnClick = async () =>{
     await enableWeb3();
     if (typeof window !== "undefined"){
       window.localStorage.setItem("connected","injected")
     }
   }
-  console.log(account);
+
 
   useEffect(()=>{
     Moralis.onAccountChanged((account)=>{
@@ -37,7 +37,7 @@ export default function ManualHeader() {
 
   return (
     <div>
-      {account ? (<div>Connected to {account.slice(0,6)}....{account.slice(account.length-4)}</div>):(<button onClick={handleConnectOnClick}>Connect</button>)}
+      {account ? (<div>Connected to {account.slice(0,6)}....{account.slice(account.length-4)}</div>):(<button disabled={isWeb3EnableLoading} onClick={handleConnectOnClick}>Connect</button>)}
     </div>
   )
 }
